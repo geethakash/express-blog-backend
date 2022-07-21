@@ -12,7 +12,6 @@ const UserType = new GraphQLObjectType({
     name: { type: GraphQLString },
     username: { type: GraphQLString },
     email: { type: GraphQLString },
-    password: { type: GraphQLString },
     isAdmin: { type: GraphQLBoolean },
     isActive: { type: GraphQLBoolean },
     avatar: { type: GraphQLString },
@@ -22,4 +21,3 @@ const UserType = new GraphQLObjectType({
 });
 
 export default UserType;
-

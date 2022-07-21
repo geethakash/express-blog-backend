@@ -1,7 +1,7 @@
 import express from 'express';
 import moment from 'moment';
 
-const middleware = (
+const loggerMiddleqare = (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
@@ -20,4 +20,4 @@ const middleware = (
     : console.log(logText.red);
 };
 
-export default middleware;
+export default loggerMiddleqare;

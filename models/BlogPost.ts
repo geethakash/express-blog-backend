@@ -1,6 +1,36 @@
 import mongoose from 'mongoose';
+import { UserDocument } from './User';
 
-const BlogPostSchema = new mongoose.Schema(
+interface IReply {
+  _id: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user: string;
+}
+
+interface IComment {
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user: string;
+  replies: IReply[];
+}
+
+export type BlogPostDocument = mongoose.Document & {
+  _id: string;
+  title: string;
+  content: string;
+  coverImage: string;
+  tags: string[];
+  author: UserDocument;
+  likes: UserDocument[];
+  comments: IComment[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+const BlogPostSchema = new mongoose.Schema<BlogPostDocument>(
   {
     title: {
       type: String,

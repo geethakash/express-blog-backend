@@ -1,6 +1,21 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
-const UserSchema = new mongoose.Schema({
+export type UserDocument = mongoose.Document & {
+  _id: string;
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  isAdmin: boolean;
+  isActive: boolean;
+  avatar: string;
+  createdAt: Date;
+  updatedAt: Date;
+  comparePassword: (password: string) => Promise<boolean>;
+};
+
+const UserSchema = new mongoose.Schema<UserDocument>({
   name: {
     type: String,
     required: true,
@@ -16,7 +31,6 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    select: false,
     required: true,
   },
   isAdmin: {
@@ -32,5 +46,22 @@ const UserSchema = new mongoose.Schema({
     default: '',
   },
 });
+
+UserSchema.pre('save', async function (next) {
+  const user = this;
+  if (!user.isModified('password')) return next();
+
+  // :TODO: use bcrypt.genSalt() to generate a salt
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(user.password, salt);
+  user.password = hash;
+  next();
+});
+
+UserSchema.methods.comparePassword = async function (
+  password: string
+): Promise<boolean> {
+  return await bcrypt.compare(password, this.password);
+};
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);

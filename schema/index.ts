@@ -5,11 +5,14 @@ import {
   GraphQLBoolean,
   GraphQLSchema,
 } from 'graphql';
-import UserType from './typeDefs/userType';
-import BlogPostType from './typeDefs/blogPostType';
+
+// local imports
+import UserType from './types/userType';
+import BlogPostType from './types/blogPostType';
 import User from '../models/User';
 import BlogPost from '../models/BlogPost';
-import { updateLocale } from 'moment';
+import { createUser, updateUser, deleteUser } from './mutations/userMutations';
+import { addBlogPost } from './mutations/blogPostMutations';
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -51,77 +54,12 @@ const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
     // user mutations
-    addUser: {
-      type: UserType,
-      args: {
-        name: { type: GraphQLString },
-        username: { type: GraphQLString },
-        email: { type: GraphQLString },
-        password: { type: GraphQLString },
-        isAdmin: { type: GraphQLBoolean },
-        isActive: { type: GraphQLBoolean },
-        avatar: { type: GraphQLString },
-      },
-      resolve(parent, args) {
-        const user = new User({
-          name: args.name,
-          username: args.username,
-          email: args.email,
-          password: args.password,
-          isAdmin: args.isAdmin,
-          isActive: args.isActive,
-          avatar: args.avatar,
-        });
-        return user.save();
-      },
-    },
-    updateUser: {
-      type: UserType,
-      args: {
-        id: { type: GraphQLString },
-        name: { type: GraphQLString },
-        username: { type: GraphQLString },
-        email: { type: GraphQLString },
-        password: { type: GraphQLString },
-        isAdmin: { type: GraphQLBoolean },
-        isActive: { type: GraphQLBoolean },
-        avatar: { type: GraphQLString },
-      },
-      resolve(parent, args) {
-        return User.findByIdAndUpdate(args.id, args);
-      },
-    },
-    deleteUser: {
-      type: UserType,
-      args: {
-        id: { type: GraphQLString },
-      },
-      resolve(parent, args) {
-        return User.findByIdAndRemove(args.id);
-      },
-    },
+    createUser,
+    updateUser,
+    deleteUser,
 
     // blog post mutations
-    addBlogPost: {
-      type: BlogPostType,
-      args: {
-        title: { type: GraphQLString },
-        content: { type: GraphQLString },
-        coverImage: { type: GraphQLString },
-        author: { type: GraphQLString },
-        tags: { type: GraphQLList(GraphQLString) },
-      },
-      resolve(parent, args) {
-        const blogPost = new BlogPost({
-          title: args.title,
-          content: args.content,
-          coverImage: args.coverImage,
-          author: args.author,
-          tags: args.tags,
-        });
-        return blogPost.save();
-      },
-    },
+    addBlogPost,
     updateBlogPost: {
       type: BlogPostType,
       args: {
@@ -196,3 +134,54 @@ const Mutation = new GraphQLObjectType({
 });
 
 export default new GraphQLSchema({ query: RootQuery, mutation: Mutation });
+
+// addUser: {
+//   type: UserType,
+//   args: {
+//     name: { type: GraphQLString },
+//     username: { type: GraphQLString },
+//     email: { type: GraphQLString },
+//     password: { type: GraphQLString },
+//     isAdmin: { type: GraphQLBoolean },
+//     isActive: { type: GraphQLBoolean },
+//     avatar: { type: GraphQLString },
+//   },
+//   resolve(parent, args) {
+//     const user = new User({
+//       name: args.name,
+//       username: args.username,
+//       email: args.email,
+//       password: args.password,
+//       isAdmin: args.isAdmin,
+//       isActive: args.isActive,
+//       avatar: args.avatar,
+//     });
+//     return user.save();
+//   },
+// },
+// updateUser: {
+//   type: UserType,
+//   args: {
+//     id: { type: GraphQLString },
+//     name: { type: GraphQLString },
+//     username: { type: GraphQLString },
+//     email: { type: GraphQLString },
+//     password: { type: GraphQLString },
+//     isAdmin: { type: GraphQLBoolean },
+//     isActive: { type: GraphQLBoolean },
+//     avatar: { type: GraphQLString },
+//   },
+//   resolve(parent, args, context) {
+//     console.log('context user id', context.user);
+//     return User.findByIdAndUpdate(args.id, args);
+//   },
+// },
+// deleteUser: {
+//   type: UserType,
+//   args: {
+//     id: { type: GraphQLString },
+//   },
+//   resolve(parent, args) {
+//     return User.findByIdAndRemove(args.id);
+//   },
+// },
