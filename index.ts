@@ -14,10 +14,12 @@ import accessController from './controllers/access.controller';
 colors.enable();
 
 // constants
-const port: number | string = process.env.PORT || 5000;
+const port: number | string = process.env.PORT || 3000;
 
 // app
 const app = express();
+
+app.use(express.static('public'));
 
 app.use(cors());
 app.use(reqLoggerMiddleware);
