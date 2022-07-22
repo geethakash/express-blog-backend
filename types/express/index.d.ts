@@ -5,6 +5,5 @@ declare namespace Express {
     isAdmin: () => boolean;
     isActive: () => boolean;
     isOwner: (userId: string | number) => boolean;
-    newFunc: (code: number) => number;
   }
 }

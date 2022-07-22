@@ -27,10 +27,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(authMiddleware);
 app.use(accessController);
-// var request: Request = app.request;
-// app.request.newFunc = (code: number) => {
-//   return code;
-// };
 
 // connect to mongoDB
 connectDB();
