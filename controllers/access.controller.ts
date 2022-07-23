@@ -8,8 +8,8 @@ export default (req: Request, res: Response, next: NextFunction) => {
     return false;
   };
   req.isAdmin = () => {
-    if (req.user) {
-      return req.user.role === 'admin';
+    if (req.user.role === 'admin') {
+      return true;
     }
     return false;
   };
