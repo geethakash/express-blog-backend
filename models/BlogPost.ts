@@ -10,6 +10,7 @@ interface IReply {
 }
 
 interface IComment {
+  _id: string;
   content: string;
   createdAt: Date;
   updatedAt: Date;
