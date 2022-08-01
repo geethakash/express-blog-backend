@@ -9,6 +9,7 @@ export type UserDocument = mongoose.Document & {
   password: string;
   isAdmin: boolean;
   isActive: boolean;
+  followers: string[];
   avatar: string;
   createdAt: Date;
   updatedAt: Date;
@@ -33,6 +34,7 @@ const UserSchema = new mongoose.Schema<UserDocument>({
     type: String,
     required: true,
   },
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   isAdmin: {
     type: Boolean,
     default: false,

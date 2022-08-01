@@ -16,11 +16,7 @@ router.get('/', (req: Request, res: Response) => {
 
 router.use('/auth', authRouter);
 
-router.use(
-  '/graphql',
-
-  graphqlHTTP({ schema, graphiql: true })
-);
+router.use('/graphql', graphqlHTTP({ schema, graphiql: true }));
 
 router.get(
   '/playground',

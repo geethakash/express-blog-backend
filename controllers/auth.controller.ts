@@ -119,6 +119,7 @@ export const checkAuth = async (
   next: NextFunction
 ) => {
   if (req.isAuthenticated()) {
+    console.log('user', req.user.id);
     return res.status(200).json({
       success: true,
       message: 'You are authenticated',

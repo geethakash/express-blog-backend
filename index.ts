@@ -1,6 +1,5 @@
-// const express = require('express');
 import 'dotenv/config';
-import express, { Request } from 'express';
+import express from 'express';
 import cors from 'cors';
 import colors from 'colors';
 
@@ -9,7 +8,7 @@ import router from './routes';
 import connectDB from './config/connectDb';
 import reqLoggerMiddleware from './middleware/reqlogger.middleware';
 import authMiddleware from './middleware/auth.middleaware';
-import accessController from './controllers/access.controller';
+import accessController from './middleware/access_conrol.middleware';
 
 colors.enable();
 

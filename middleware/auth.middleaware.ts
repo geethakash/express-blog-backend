@@ -9,11 +9,13 @@ const authenticate = (
   const token = req.header('Authorization')?.split(' ')[1];
   if (token) {
     try {
+      // TODO: Only return the jsonpayload
       const decoded = verifyToken(token);
       req.user = decoded;
 
       next();
     } catch (err) {
+      // TODO: Handle error properly
       next();
     }
   } else {

@@ -8,10 +8,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
     return false;
   };
   req.isAdmin = () => {
-    if (req.user.role === 'admin') {
-      return true;
-    }
-    return false;
+    return req.user.isAdmin;
   };
   req.isActive = () => {
     if (req.user && req.user.isActive) {
